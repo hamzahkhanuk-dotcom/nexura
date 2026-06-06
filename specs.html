@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS &mdash; Specifications</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-hero{height:75vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:72px 52px}
+.page-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:grayscale(20%)}
+.page-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(5,5,5,0.5) 60%,transparent 100%)}
+.page-hero-content{position:relative;z-index:2}
+.page-hero h1{font-family:"Orbitron",sans-serif;font-size:clamp(48px,8vw,100px);font-weight:900;letter-spacing:-2px;line-height:.9;color:var(--white);margin-bottom:12px}
+.specs-grid-sec{padding:96px 52px;border-bottom:1px solid var(--border)}
+.specs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:56px}
+.sp{background:var(--bg);padding:36px 28px;transition:background .3s;position:relative;overflow:hidden}
+.sp:hover{background:var(--surface)}
+.sp-category{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:16px;font-family:"Space Grotesk",sans-serif}
+.sp-value{font-family:"Orbitron",sans-serif;font-size:clamp(22px,3vw,36px);font-weight:700;color:var(--white);line-height:1;margin-bottom:6px}
+.sp-label{font-family:"Space Grotesk",sans-serif;font-size:13px;color:#555;line-height:1.5}
+.cap-sec{padding:96px 52px;border-bottom:1px solid var(--border)}
+.cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:56px}
+.cap{background:var(--surface);border:1px solid var(--border);padding:32px;transition:all .3s;position:relative;overflow:hidden}
+.cap::after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--white);opacity:0;transition:opacity .3s}
+.cap:hover{border-color:var(--border2)}
+.cap:hover::after{opacity:1}
+.cap-icon{font-size:28px;margin-bottom:16px;display:block}
+.cap-title{font-family:"Space Grotesk",sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px}
+.cap-desc{font-family:"Space Grotesk",sans-serif;font-size:13px;color:#666;line-height:1.65}
+.cap-stat{font-family:"Orbitron",sans-serif;font-size:11px;color:#444;margin-top:14px;letter-spacing:1px}
+.detail-sec{padding:96px 52px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;border-bottom:1px solid var(--border)}
+.detail-img{height:580px;position:relative;overflow:hidden;border-radius:2px}
+.detail-img img{width:100%;height:100%;object-fit:cover;object-position:center}
+.detail-img-ov{position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--bg) 100%)}
+.tech-list{display:flex;flex-direction:column;gap:0}
+.tech-item{padding:18px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;align-items:center}
+.tech-item:first-child{padding-top:0}
+.tech-name{font-family:"Space Grotesk",sans-serif;font-size:14px;color:#888}
+.tech-val{font-family:"Orbitron",sans-serif;font-size:13px;color:var(--white);letter-spacing:1px}
+@media(max-width:900px){.page-hero{padding:80px 20px 40px;height:55vh}.specs-grid-sec{padding:60px 20px}.specs-grid{grid-template-columns:1fr 1fr}.cap-sec{padding:60px 20px}.cap-grid{grid-template-columns:1fr}.detail-sec{grid-template-columns:1fr;padding:60px 20px}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
+<nav class="nav"><a class="nav-logo" href="index.html">NEXUS</a><ul class="nav-links"><li><a href="index.html">Overview</a></li><li><a href="about.html">About</a></li><li><a href="specs.html" id="nav-specs">Specifications</a></li><li><a href="contact.html">Access</a></li></ul><button class="nav-cta" onclick="window.location='contact.html'">Request Access</button></nav>
+<script>document.getElementById("nav-specs").classList.add("active");</script>
+<section class="page-hero">
+  <img src="nexus-detail.png" alt="NEXUS Detail">
+  <div class="page-hero-overlay"></div>
+  <div class="scan-line"></div>
+  <div class="page-hero-content">
+    <div class="sec-tag" style="margin-bottom:16px">Technical Overview</div>
+    <h1>Built Beyond<br>Human Limits.</h1>
+    <p style="font-family:'Space Grotesk',sans-serif;font-size:16px;color:rgba(255,255,255,0.5);max-width:460px">Every component. Every specification. Every system. Engineered to exceed every standard that came before it.</p>
+  </div>
+</section>
+
+<section class="specs-grid-sec rv">
+  <div class="sec-tag">Core Specifications</div>
+  <h2 class="sec-h">The Numbers<br>Behind NEXUS.</h2>
+  <div class="specs-grid">
+    <div class="sp"><div class="sp-category">Processing Power</div><div class="sp-value">50T</div><div class="sp-label">Operations per second across distributed neural processing cores</div></div>
+    <div class="sp"><div class="sp-category">Response Time</div><div class="sp-value">0.3s</div><div class="sp-label">Average latency from perception to physical response execution</div></div>
+    <div class="sp"><div class="sp-category">Operational Range</div><div class="sp-value">200hr</div><div class="sp-label">Continuous operation on a single charge under standard load</div></div>
+    <div class="sp"><div class="sp-category">Language Capability</div><div class="sp-value">140+</div><div class="sp-label">Languages understood, spoken, and written with native fluency</div></div>
+    <div class="sp"><div class="sp-category">Sensory Inputs</div><div class="sp-value">47</div><div class="sp-label">Distinct sensory channels mapped across environmental awareness systems</div></div>
+    <div class="sp"><div class="sp-category">Learning Velocity</div><div class="sp-value">&lt;60s</div><div class="sp-label">Time required to learn and execute a new physical task from demonstration</div></div>
+    <div class="sp"><div class="sp-category">Lifting Capacity</div><div class="sp-value">120kg</div><div class="sp-label">Maximum sustained load under precision control conditions</div></div>
+    <div class="sp"><div class="sp-category">Autonomous Scenarios</div><div class="sp-value">2.4M</div><div class="sp-label">Pre-validated decision pathways for autonomous operation</div></div>
+    <div class="sp"><div class="sp-category">Precision</div><div class="sp-value">0.1mm</div><div class="sp-label">Fine motor control accuracy across all 28 articulated joints</div></div>
+  </div>
+</section>
+
+<section class="cap-sec rv">
+  <div class="sec-tag">Capability Domains</div>
+  <h2 class="sec-h">What NEXUS<br>Can Do.</h2>
+  <div class="cap-grid">
+    <div class="cap"><span class="cap-icon">&#129504;</span><div class="cap-title">Cognitive Intelligence</div><div class="cap-desc">NEXUS processes information across text, speech, visual data, and sensor input simultaneously. It reasons through complex, multi-variable problems and arrives at conclusions that account for context, risk, and long-term consequence.</div><div class="cap-stat">AGI LEVEL 4 &mdash; CONTEXTUAL REASONING</div></div>
+    <div class="cap"><span class="cap-icon">&#9881;</span><div class="cap-title">Physical Capability</div><div class="cap-desc">From neurosurgical precision to heavy industrial lifting, NEXUS adapts its physical behaviour to the demands of any environment. 28 articulated joints, proprioceptive feedback, and real-time balance correction enable human-level dexterity at scale.</div><div class="cap-stat">28 JOINTS &mdash; 0.1MM PRECISION</div></div>
+    <div class="cap"><span class="cap-icon">&#128483;</span><div class="cap-title">Communication</div><div class="cap-desc">140+ languages. Natural spoken dialogue. Emotional tone recognition. NEXUS communicates with the clarity of a trained expert and the empathy of a trusted colleague. It knows when to speak, when to listen, and what to say.</div><div class="cap-stat">140+ LANGUAGES &mdash; EMOTIONAL RECOGNITION</div></div>
+    <div class="cap"><span class="cap-icon">&#128336;</span><div class="cap-title">Autonomous Operation</div><div class="cap-desc">NEXUS can operate independently across 2.4 million pre-validated scenarios without human oversight &mdash; and escalates appropriately when it encounters situations that require human judgement. It knows the limits of its own authority.</div><div class="cap-stat">2.4M SCENARIOS &mdash; ETHICAL CONSTRAINTS</div></div>
+  </div>
+</section>
+
+<section class="detail-sec rv">
+  <div class="detail-img scan-wrap">
+    <img src="nexus-face.png" alt="NEXUS Detail">
+    <div class="detail-img-ov"></div>
+    <div class="scan-line" style="animation-duration:3s"></div>
+  </div>
+  <div>
+    <div class="sec-tag">System Architecture</div>
+    <h2 class="sec-h" style="margin-bottom:36px">Technical<br>Breakdown.</h2>
+    <div class="tech-list">
+      <div class="tech-item"><span class="tech-name">Primary Processor</span><span class="tech-val">NX-CORE &mdash; Gen 3</span></div>
+      <div class="tech-item"><span class="tech-name">Neural Architecture</span><span class="tech-val">Distributed AGI Stack</span></div>
+      <div class="tech-item"><span class="tech-name">Vision System</span><span class="tech-val">4K Stereo + LIDAR</span></div>
+      <div class="tech-item"><span class="tech-name">Power Source</span><span class="tech-val">Solid-State Fusion Cell</span></div>
+      <div class="tech-item"><span class="tech-name">Frame Material</span><span class="tech-val">Titanium-Carbon Alloy</span></div>
+      <div class="tech-item"><span class="tech-name">Height / Mass</span><span class="tech-val">1.82m &mdash; 68kg</span></div>
+      <div class="tech-item"><span class="tech-name">Operating Temperature</span><span class="tech-val">&minus;40&deg;C to +85&deg;C</span></div>
+      <div class="tech-item"><span class="tech-name">IP Rating</span><span class="tech-val">IP68 &mdash; Fully Sealed</span></div>
+      <div class="tech-item"><span class="tech-name">Connectivity</span><span class="tech-val">5G / Wi-Fi 7 / BT 6.0</span></div>
+      <div class="tech-item"><span class="tech-name">Classification</span><span class="tech-val">RESTRICTED ACCESS</span></div>
+    </div>
+    <div style="margin-top:36px;display:flex;gap:12px">
+      <button class="btn-primary" onclick="window.location='contact.html'">Request Full Specs</button>
+    </div>
+  </div>
+</section>
+<footer class="footer"><div class="footer-inner"><div><a class="footer-brand" href="index.html">NEXUS</a><p class="footer-desc">The world's most advanced humanoid intelligence. Built to serve humanity at a scale never before possible.</p></div><div><div class="footer-head">Navigate</div><ul class="footer-links"><li><a href="index.html">Overview</a></li><li><a href="about.html">About</a></li><li><a href="specs.html">Specifications</a></li><li><a href="contact.html">Request Access</a></li></ul></div><div><div class="footer-head">Capabilities</div><ul class="footer-links"><li><a href="specs.html">Cognitive Systems</a></li><li><a href="specs.html">Physical Capability</a></li><li><a href="specs.html">Communication</a></li><li><a href="specs.html">Autonomy</a></li></ul></div><div><div class="footer-head">Contact</div><ul class="footer-links"><li><a href="contact.html">Research Enquiries</a></li><li><a href="contact.html">Press & Media</a></li><li><a href="contact.html">Partnership</a></li><li><a href="#">contact@nexus-labs.ai</a></li></ul></div></div><div class="footer-btm"><div class="footer-copy">&copy; 2026 NEXUS LABORATORIES. CLASSIFIED RESEARCH DIVISION.</div><div class="footer-copy">ALL RIGHTS RESERVED.</div></div></footer>
+<script>
+(function(){
+  var cur=document.getElementById("cursor"),ring=document.getElementById("cursorRing");
+  if(!cur)return;
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;cur.style.left=mx+"px";cur.style.top=my+"px";});
+  function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll("a,button").forEach(function(el){
+    el.addEventListener("mouseenter",function(){cur.style.transform="translate(-50%,-50%) scale(3)";ring.style.transform="translate(-50%,-50%) scale(0.5)";ring.style.opacity="0";});
+    el.addEventListener("mouseleave",function(){cur.style.transform="translate(-50%,-50%) scale(1)";ring.style.transform="translate(-50%,-50%) scale(1)";ring.style.opacity="1";});
+  });
+  var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");}});},{threshold:.08});
+  document.querySelectorAll(".rv").forEach(function(el,i){el.style.transitionDelay=(i%4)*.1+"s";ro.observe(el);});
+})();</script>
+</body></html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS &mdash; About</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-hero{height:80vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:72px 52px}
+.page-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(15%)}
+.page-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(5,5,5,0.4) 60%,rgba(5,5,5,0.2) 100%)}
+.page-hero-content{position:relative;z-index:2}
+.page-hero h1{font-family:"Orbitron",sans-serif;font-size:clamp(48px,8vw,100px);font-weight:900;letter-spacing:-2px;line-height:.9;color:var(--white);margin-bottom:12px}
+.page-hero p{font-family:"Space Grotesk",sans-serif;font-size:16px;color:rgba(255,255,255,0.5);max-width:480px}
+.story-sec{padding:96px 52px;display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start;border-bottom:1px solid var(--border)}
+.story-text .sec-sub{margin-top:16px;margin-bottom:0;font-size:15px}
+.story-body{display:flex;flex-direction:column;gap:28px}
+.story-p{font-family:"Space Grotesk",sans-serif;font-size:15px;color:rgba(255,255,255,0.55);line-height:1.8}
+.story-p strong{color:var(--white)}
+.timeline-sec{padding:96px 52px;border-bottom:1px solid var(--border)}
+.timeline{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.tl-item{background:var(--bg);padding:32px 24px;border-top:2px solid transparent;transition:border-color .3s}
+.tl-item:hover{border-color:var(--white)}
+.tl-year{font-family:"Orbitron",sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:#555;margin-bottom:12px}
+.tl-title{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--white);margin-bottom:8px}
+.tl-desc{font-family:"Space Grotesk",sans-serif;font-size:13px;color:#555;line-height:1.6}
+.pillars-sec{padding:96px 52px;border-bottom:1px solid var(--border)}
+.pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:56px}
+.pillar{background:var(--bg);padding:48px 36px;position:relative;overflow:hidden;transition:background .3s}
+.pillar::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--white);opacity:0;transition:opacity .3s}
+.pillar:hover{background:var(--surface)}
+.pillar:hover::before{opacity:1}
+.pillar-num{font-family:"Orbitron",sans-serif;font-size:42px;font-weight:700;color:rgba(255,255,255,0.08);line-height:1;margin-bottom:20px}
+.pillar-title{font-family:"Space Grotesk",sans-serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:12px}
+.pillar-desc{font-family:"Space Grotesk",sans-serif;font-size:14px;color:#666;line-height:1.7}
+.mission-sec{padding:96px 52px;display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center;border-bottom:1px solid var(--border)}
+.mission-img{height:560px;position:relative;overflow:hidden}
+.mission-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.mission-img-overlay{position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 30%)}
+.mission-quote{font-family:"Orbitron",sans-serif;font-size:clamp(20px,3vw,32px);font-weight:600;line-height:1.3;color:var(--white);letter-spacing:-.5px;margin-bottom:24px}
+.mission-attr{font-family:"Space Grotesk",sans-serif;font-size:11px;letter-spacing:2px;color:#555;text-transform:uppercase}
+@media(max-width:900px){.page-hero{padding:80px 20px 40px;height:60vh}.story-sec{grid-template-columns:1fr;padding:60px 20px;gap:40px}.timeline-sec{padding:60px 20px}.timeline{grid-template-columns:1fr 1fr}.pillars-sec{padding:60px 20px}.pillars-grid{grid-template-columns:1fr}.mission-sec{grid-template-columns:1fr;padding:60px 20px}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">NEXUS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Overview</a></li>
+    <li><a href="about.html" id="nav-about">About</a></li>
+    <li><a href="specs.html">Specifications</a></li>
+    <li><a href="contact.html">Access</a></li>
+  </ul>
+  <button class="nav-cta" onclick="window.location='contact.html'">Request Access</button>
+</nav>
+<script>document.getElementById("nav-about").classList.add("active");</script>
+
+<section class="page-hero">
+  <img src="nexus-smoke.png" alt="NEXUS">
+  <div class="page-hero-overlay"></div>
+  <div class="scan-line" style="animation-duration:4s"></div>
+  <div class="page-hero-content">
+    <div class="sec-tag" style="margin-bottom:16px">The Story of NEXUS</div>
+    <h1>The Next<br>Chapter.</h1>
+    <p>Seven years of classified research. One singular purpose: build an intelligence that genuinely understands the world.</p>
+  </div>
+</section>
+
+<section class="story-sec rv">
+  <div class="story-text">
+    <div class="sec-tag">Origins</div>
+    <h2 class="sec-h">Not Built.<br>Discovered.</h2>
+  </div>
+  <div class="story-body">
+    <p class="story-p">In 2018, a team of 47 researchers across disciplines &mdash; neuroscience, materials engineering, quantum computing, and linguistics &mdash; convened under a single classified directive: <strong>create the first truly general intelligence capable of inhabiting a physical form.</strong></p>
+    <p class="story-p">Previous humanoid robots were demonstrations of human ingenuity. Sophisticated, impressive, but ultimately limited to what they were told to do. NEXUS was built on a different premise entirely. <strong>What if a machine didn&rsquo;t need to be told?</strong> What if it simply understood?</p>
+    <p class="story-p">The answer required a fundamental rethinking of how intelligence is modelled &mdash; not as a series of decision trees or pattern matches, but as a <strong>continuously learning, contextually aware, emotionally resonant cognitive system</strong> embedded in a body designed to move through human spaces with natural fluency.</p>
+    <p class="story-p">Seven years later, NEXUS-1 is not a prototype. It is a revolution. And it is ready.</p>
+  </div>
+</section>
+
+<section class="timeline-sec rv">
+  <div class="sec-tag">Development Timeline</div>
+  <h2 class="sec-h">Seven Years.<br>One Mission.</h2>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-year">2018 &mdash; 2019</div><div class="tl-title">Project Genesis</div><div class="tl-desc">The research consortium is assembled. Core cognitive architecture begins development under classified government contract.</div></div>
+    <div class="tl-item"><div class="tl-year">2020 &mdash; 2021</div><div class="tl-title">Cognitive Breakthrough</div><div class="tl-desc">First successful test of contextual understanding beyond scripted parameters. NEXUS demonstrates genuine reasoning for the first time.</div></div>
+    <div class="tl-item"><div class="tl-year">2022 &mdash; 2024</div><div class="tl-title">Physical Integration</div><div class="tl-desc">Cognitive systems merged with physical form. 14 months of locomotion, dexterity and environmental awareness testing across 2,400+ scenarios.</div></div>
+    <div class="tl-item"><div class="tl-year">2025 &mdash; 2026</div><div class="tl-title">Validation &amp; Launch</div><div class="tl-desc">Final safety certification and performance validation. NEXUS achieves full operational capability. Limited deployment begins.</div></div>
+  </div>
+</section>
+
+<section class="pillars-sec rv">
+  <div class="sec-tag">Core Philosophy</div>
+  <h2 class="sec-h">Three Principles.<br>One Purpose.</h2>
+  <div class="pillars-grid">
+    <div class="pillar"><div class="pillar-num">01</div><div class="pillar-title">Genuine Understanding</div><div class="pillar-desc">NEXUS does not follow scripts. It comprehends context, interprets ambiguity, and reasons through problems the way a seasoned expert does &mdash; drawing on everything it knows to find the best path forward.</div></div>
+    <div class="pillar"><div class="pillar-num">02</div><div class="pillar-title">Perpetual Adaptation</div><div class="pillar-desc">Every interaction makes NEXUS more capable. It learns your environment, your preferences, your working patterns &mdash; not through configuration, but through genuine observation and understanding.</div></div>
+    <div class="pillar"><div class="pillar-num">03</div><div class="pillar-title">Human-First Design</div><div class="pillar-desc">NEXUS was built to augment humanity, not replace it. Every capability, every design decision, every line of code serves one purpose: to make human lives more capable, safer, and more meaningful.</div></div>
+  </div>
+</section>
+
+<section class="mission-sec rv">
+  <div class="mission-img scan-wrap">
+    <img src="nexus-body.png" alt="NEXUS">
+    <div class="mission-img-overlay"></div>
+    <div class="scan-line" style="animation-duration:5s"></div>
+  </div>
+  <div>
+    <div class="sec-tag">Our Mission</div>
+    <h2 class="sec-h" style="margin-bottom:28px">The Next<br>Step.</h2>
+    <p class="mission-quote">&ldquo;We did not build NEXUS to be impressive. We built it to be indispensable. The difference is everything.&rdquo;</p>
+    <div class="mission-attr">Dr. A. Chen &mdash; Chief Intelligence Officer, NEXUS Laboratories</div>
+    <div style="margin-top:36px;display:flex;gap:12px">
+      <button class="btn-primary" onclick="window.location='specs.html'">View Specifications</button>
+      <button class="btn-secondary" onclick="window.location='contact.html'">Request Access</button>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div><a class="footer-brand" href="index.html">NEXUS</a><p class="footer-desc">The world's most advanced humanoid intelligence. Built to serve humanity at a scale never before possible.</p></div>
+    <div><div class="footer-head">Navigate</div><ul class="footer-links"><li><a href="index.html">Overview</a></li><li><a href="about.html">About</a></li><li><a href="specs.html">Specifications</a></li><li><a href="contact.html">Request Access</a></li></ul></div>
+    <div><div class="footer-head">Capabilities</div><ul class="footer-links"><li><a href="specs.html">Cognitive Systems</a></li><li><a href="specs.html">Physical Capability</a></li><li><a href="specs.html">Communication</a></li><li><a href="specs.html">Autonomy</a></li></ul></div>
+    <div><div class="footer-head">Contact</div><ul class="footer-links"><li><a href="contact.html">Research Enquiries</a></li><li><a href="contact.html">Press & Media</a></li><li><a href="contact.html">Partnership</a></li><li><a href="#">contact@nexus-labs.ai</a></li></ul></div>
+  </div>
+  <div class="footer-btm"><div class="footer-copy">&copy; 2026 NEXUS LABORATORIES. CLASSIFIED RESEARCH DIVISION.</div><div class="footer-copy">ALL RIGHTS RESERVED.</div></div>
+</footer>
+<script>
+(function(){
+  var cur=document.getElementById("cursor"),ring=document.getElementById("cursorRing");
+  if(!cur)return;
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;cur.style.left=mx+"px";cur.style.top=my+"px";});
+  function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll("a,button").forEach(function(el){
+    el.addEventListener("mouseenter",function(){cur.style.transform="translate(-50%,-50%) scale(3)";ring.style.transform="translate(-50%,-50%) scale(0.5)";ring.style.opacity="0";});
+    el.addEventListener("mouseleave",function(){cur.style.transform="translate(-50%,-50%) scale(1)";ring.style.transform="translate(-50%,-50%) scale(1)";ring.style.opacity="1";});
+  });
+  var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");}});},{threshold:.08});
+  document.querySelectorAll(".rv").forEach(function(el,i){el.style.transitionDelay=(i%4)*.1+"s";ro.observe(el);});
+})();</script>
+</body></html>

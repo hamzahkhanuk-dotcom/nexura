@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS — Intelligence Evolved</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* BOOT SCREEN */
+.boot{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1.2s ease,visibility 1.2s}
+.boot.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.boot-brand{font-family:"Orbitron",sans-serif;font-size:clamp(24px,4vw,36px);letter-spacing:10px;color:#fff;font-weight:900;margin-bottom:4px}
+.boot-sub{font-size:9px;letter-spacing:5px;color:#333;margin-bottom:44px;font-family:"Space Grotesk",sans-serif;text-transform:uppercase}
+.boot-terminal{width:min(520px,90vw);border:1px solid #1a1a1a;padding:28px 28px 24px;background:#030303}
+.boot-line{display:flex;justify-content:space-between;gap:24px;padding:3px 0;opacity:0;transition:opacity .3s}
+.boot-line.show{opacity:1}
+.boot-label{font-size:10px;letter-spacing:1.5px;color:#333;font-family:"Space Grotesk",sans-serif;white-space:nowrap}
+.boot-label::before{content:"> ";color:#222}
+.boot-val{font-size:10px;letter-spacing:1px;color:#555;font-family:"Space Grotesk",sans-serif}
+.boot-val.done{color:#888}
+.boot-divider{height:1px;background:#111;margin:14px 0}
+.boot-online{font-family:"Orbitron",sans-serif;font-size:11px;letter-spacing:4px;color:#fff;opacity:0;transition:opacity .6s;padding-top:4px}
+.boot-online.show{opacity:1}
+.boot-bar-row{margin-top:24px;display:flex;align-items:center;gap:14px}
+.boot-bar-wrap{flex:1;height:1px;background:#111}
+.boot-bar{height:100%;width:0%;background:#fff;transition:width 2s ease}
+.boot-pct{font-size:10px;color:#333;font-family:"Orbitron",sans-serif;letter-spacing:1px;min-width:36px}
+
+/* HERO */
+.hero{height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;background:#000}
+#hCanvas{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-left{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:0 52px;padding-top:64px}
+.hero-eyebrow{margin-bottom:24px;opacity:0;animation:fadeUp .8s .2s forwards}
+.hero-status-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.hero-status-dot{width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff;animation:blink 2s infinite}
+.hero-status-text{font-size:9px;letter-spacing:4px;color:#555;font-family:"Space Grotesk",sans-serif;text-transform:uppercase}
+.hero-eyebrow-line{width:40px;height:1px;background:#222;margin-top:8px}
+.hero-h1{font-family:"Orbitron",sans-serif;font-size:clamp(52px,9vw,118px);font-weight:900;letter-spacing:-2px;line-height:.88;color:#fff;margin-bottom:6px;opacity:0;animation:fadeUp .9s .4s forwards;animation:glitch 8s infinite,fadeUp .9s .4s forwards}
+.hero-model{font-size:10px;letter-spacing:4px;color:#333;font-family:"Space Grotesk",sans-serif;text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp .8s .6s forwards}
+.hero-tagline{font-family:"Space Grotesk",sans-serif;font-size:clamp(15px,1.8vw,20px);font-weight:300;color:rgba(255,255,255,0.65);line-height:1.6;max-width:400px;margin-bottom:32px;opacity:0;animation:fadeUp .8s .8s forwards}
+.hero-tagline strong{color:#fff;font-weight:600}
+.hero-btns{display:flex;gap:12px;margin-bottom:36px;opacity:0;animation:fadeUp .8s 1s forwards}
+.hero-meta{display:flex;gap:24px;opacity:0;animation:fadeUp .8s 1.1s forwards}
+.hero-meta-item{display:flex;flex-direction:column;gap:3px}
+.hero-meta-val{font-family:"Orbitron",sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:-1px}
+.hero-meta-label{font-size:9px;letter-spacing:2px;color:#444;font-family:"Space Grotesk",sans-serif;text-transform:uppercase}
+.hero-meta-divider{width:1px;background:#1a1a1a;align-self:stretch}
+
+/* VIDEO PANEL */
+.hero-img-anim{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;animation:kenBurns 12s ease-in-out infinite alternate;transform-origin:center}
+@keyframes kenBurns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.08) translate(-2%,-1%)}}
+.hero-right{position:relative;overflow:hidden;z-index:2}
+
+.hero-video-overlay{position:absolute;inset:0;background:linear-gradient(90deg,#000 0%,rgba(0,0,0,0.3) 35%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0.4) 100%)}
+.hero-scan{position:absolute;inset:0;pointer-events:none}
+.hero-scan .scan-line{animation-duration:3s}
+.hero-corner{position:absolute;width:20px;height:20px;z-index:3}
+.hero-corner.tl{top:16px;left:16px;border-top:1px solid rgba(255,255,255,0.2);border-left:1px solid rgba(255,255,255,0.2)}
+.hero-corner.tr{top:16px;right:16px;border-top:1px solid rgba(255,255,255,0.2);border-right:1px solid rgba(255,255,255,0.2)}
+.hero-corner.bl{bottom:16px;left:16px;border-bottom:1px solid rgba(255,255,255,0.2);border-left:1px solid rgba(255,255,255,0.2)}
+.hero-corner.br{bottom:16px;right:16px;border-bottom:1px solid rgba(255,255,255,0.2);border-right:1px solid rgba(255,255,255,0.2)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.stat{padding:28px 24px;border-right:1px solid var(--border);text-align:center;position:relative;overflow:hidden;transition:background .3s}
+.stat:hover{background:#111}
+.stat:last-child{border-right:none}
+.stat::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:#fff;opacity:0;transition:opacity .3s}
+.stat:hover::after{opacity:.3}
+.stat-n{font-family:"Orbitron",sans-serif;font-size:clamp(26px,3.5vw,42px);font-weight:700;color:#fff;line-height:1;margin-bottom:6px}
+.stat-l{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#555;font-family:"Space Grotesk",sans-serif}
+
+/* ABOUT STRIP */
+.about-strip{padding:96px 52px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;border-bottom:1px solid var(--border)}
+.about-text .sec-sub{margin-top:16px;margin-bottom:32px;font-size:15px}
+.about-img{position:relative;height:540px;overflow:hidden}
+.about-img img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .8s}
+.about-img:hover img{transform:scale(1.04)}
+.about-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,transparent 35%)}
+.about-img-tag{position:absolute;bottom:20px;left:20px;font-size:9px;letter-spacing:3px;color:#555;font-family:"Space Grotesk",sans-serif;text-transform:uppercase;border:1px solid #1a1a1a;padding:5px 12px}
+
+/* GALLERY */
+.gallery-sec{padding:96px 52px;border-bottom:1px solid var(--border)}
+.gallery-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:240px 240px;gap:8px;margin-top:48px}
+.gc{position:relative;overflow:hidden}
+.gc:first-child{grid-row:span 2}
+.gc img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1);filter:grayscale(10%)}
+.gc:hover img{transform:scale(1.06);filter:grayscale(0%)}
+.gc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.75) 0%,transparent 55%)}
+.gc-label{position:absolute;bottom:14px;left:16px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-family:"Space Grotesk",sans-serif}
+.gc-corner{position:absolute;width:14px;height:14px}
+.gc-corner.tr{top:10px;right:10px;border-top:1px solid rgba(255,255,255,0.15);border-right:1px solid rgba(255,255,255,0.15)}
+.gc-corner.bl{bottom:10px;left:10px;border-bottom:1px solid rgba(255,255,255,0.15);border-left:1px solid rgba(255,255,255,0.15)}
+
+/* CTA */
+.cta-sec{padding:120px 52px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.cta-bg{position:absolute;inset:0;background-image:url("nexus-side.png");background-size:cover;background-position:center 30%;opacity:.07}
+.cta-inner{position:relative;z-index:2}
+.cta-inner .sec-sub{margin:16px auto 36px;text-align:center;max-width:500px}
+.cta-note{font-size:11px;color:#333;margin-top:14px;letter-spacing:1px;font-family:"Space Grotesk",sans-serif}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;height:auto;min-height:100vh}
+  .hero-left{padding:90px 20px 0}
+  .hero-right{height:55vh}
+  .stats{grid-template-columns:1fr 1fr}
+  .about-strip{grid-template-columns:1fr;padding:60px 20px;gap:40px}
+  .about-img{height:300px}
+  .gallery-sec{padding:60px 20px}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:180px 180px 180px}
+  .gc:first-child{grid-row:span 1;grid-column:span 2}
+  .cta-sec{padding:80px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- BOOT SCREEN -->
+<div class="boot" id="bootScreen">
+  <div class="boot-brand">NEXUS</div>
+  <div class="boot-sub">NX-01 Boot Sequence</div>
+  <div class="boot-terminal">
+    <div class="boot-line" id="bl1"><span class="boot-label">NEURAL PROCESSOR</span><span class="boot-val" id="bv1">LOADING...</span></div>
+    <div class="boot-line" id="bl2"><span class="boot-label">COGNITIVE SYSTEMS</span><span class="boot-val" id="bv2">LOADING...</span></div>
+    <div class="boot-line" id="bl3"><span class="boot-label">SENSORY ARRAY</span><span class="boot-val" id="bv3">LOADING...</span></div>
+    <div class="boot-line" id="bl4"><span class="boot-label">MOTOR PROTOCOLS</span><span class="boot-val" id="bv4">LOADING...</span></div>
+    <div class="boot-line" id="bl5"><span class="boot-label">ETHICS VALIDATION</span><span class="boot-val" id="bv5">LOADING...</span></div>
+    <div class="boot-divider"></div>
+    <div class="boot-online" id="bootOnline">NX-01 &nbsp;&mdash;&nbsp; ONLINE</div>
+    <div class="boot-bar-row">
+      <div class="boot-bar-wrap"><div class="boot-bar" id="bootBar"></div></div>
+      <div class="boot-pct" id="bootPct">0%</div>
+    </div>
+  </div>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="index.html">NEXUS</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Overview</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="specs.html">Specifications</a></li>
+    <li><a href="contact.html">Access</a></li>
+  </ul>
+  <button class="nav-cta" onclick="window.location='contact.html'">Request Access</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hCanvas"></canvas>
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="hero-status-row"><div class="hero-status-dot"></div><span class="hero-status-text">NEXUS LABORATORIES &mdash; 2026</span></div>
+      <div class="hero-eyebrow-line"></div>
+    </div>
+    <div class="hero-h1">NEXUS</div>
+    <div class="hero-model">[ Model NX&ndash;01 &nbsp;&bull;&nbsp; Humanoid Intelligence ]</div>
+    <p class="hero-tagline">The world&rsquo;s first truly <strong>general-purpose humanoid</strong>.<br>Not programmed. Not scripted.<br>Genuinely intelligent.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="window.location='about.html'">Discover NEXUS</button>
+      <button class="btn-secondary" onclick="window.location='contact.html'">Request Access</button>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="hero-meta-val">50T</div><div class="hero-meta-label">Ops / Second</div></div>
+      <div class="hero-meta-divider"></div>
+      <div class="hero-meta-item"><div class="hero-meta-val">140+</div><div class="hero-meta-label">Languages</div></div>
+      <div class="hero-meta-divider"></div>
+      <div class="hero-meta-item"><div class="hero-meta-val">200h</div><div class="hero-meta-label">Runtime</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img-anim" src="nexus-side.png" alt="NEXUS">
+    <div class="hero-video-overlay"></div>
+    <div class="hero-scan"><div class="scan-line"></div></div>
+    <div class="hero-corner tl"></div>
+    <div class="hero-corner tr"></div>
+    <div class="hero-corner bl"></div>
+    <div class="hero-corner br"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n" data-t="50" data-s="T">0</div><div class="stat-l">Operations / Second</div></div>
+  <div class="stat"><div class="stat-n" data-t="140" data-s="+">0</div><div class="stat-l">Languages Understood</div></div>
+  <div class="stat"><div class="stat-n" data-t="200" data-s="hr">0</div><div class="stat-l">Continuous Operation</div></div>
+  <div class="stat"><div class="stat-n" data-t="0.3" data-s="s">0</div><div class="stat-l">Average Response Time</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-strip rv">
+  <div class="about-text">
+    <div class="sec-tag">What Is NEXUS</div>
+    <h2 class="sec-h">A New Kind<br>of Intelligence.</h2>
+    <p class="sec-sub">NEXUS is not a tool. It is not software you configure or a machine you program. NEXUS understands the world the way a human does &mdash; through context, nuance, and continuous learning. Seven years of classified research. One singular purpose.</p>
+    <button class="btn-secondary" onclick="window.location='about.html'">Read the Story &rarr;</button>
+  </div>
+  <div class="about-img scan-wrap">
+    <img src="nexus-about.png" alt="NEXUS">
+    <div class="about-img-overlay"></div>
+    <div class="about-img-tag">NX-01 &nbsp;/&nbsp; COGNITIVE UNIT</div>
+    <div class="scan-line" style="animation-duration:4.5s"></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-sec rv">
+  <div class="sec-tag">Form &amp; Function</div>
+  <h2 class="sec-h">Engineered to Precision.</h2>
+  <div class="gallery-grid">
+    <div class="gc scan-wrap">
+      <img src="nexus-chrome2.png" alt="NEXUS"><div class="gc-overlay"></div><div class="gc-corner tr"></div><div class="gc-corner bl"></div>
+      <div class="scan-line"></div><div class="gc-label">Cognitive Architecture</div>
+    </div>
+    <div class="gc scan-wrap">
+      <img src="nexus-chrome1.png" alt="NEXUS"><div class="gc-overlay"></div><div class="gc-corner tr"></div>
+      <div class="scan-line" style="animation-delay:-1.5s"></div><div class="gc-label">Sensory Systems</div>
+    </div>
+    <div class="gc scan-wrap">
+      <img src="nexus-silver.png" alt="NEXUS"><div class="gc-overlay"></div><div class="gc-corner tr"></div>
+      <div class="scan-line" style="animation-delay:-3s"></div><div class="gc-label">Structural Core</div>
+    </div>
+    <div class="gc scan-wrap">
+      <img src="nexus-face.png" alt="NEXUS"><div class="gc-overlay"></div><div class="gc-corner tr"></div>
+      <div class="scan-line" style="animation-delay:-2s"></div><div class="gc-label">Visual Processing</div>
+    </div>
+    <div class="gc scan-wrap">
+      <img src="nexus-detail.png" alt="NEXUS"><div class="gc-overlay"></div><div class="gc-corner tr"></div>
+      <div class="scan-line" style="animation-delay:-0.5s"></div><div class="gc-label">Motor Systems</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec rv">
+  <div class="cta-bg"></div>
+  <div class="cta-inner">
+    <div class="sec-tag" style="justify-content:center">Early Access Programme</div>
+    <h2 class="sec-h">Be Among<br>The First.</h2>
+    <p class="sec-sub">NEXUS is entering its final validation phase. A limited number of research partners and enterprise clients are being accepted for early deployment. Applications are reviewed on a rolling basis.</p>
+    <button class="btn-primary" onclick="window.location='contact.html'">Request Access</button>
+    <div class="cta-note">Limited positions available &mdash; applications reviewed on a rolling basis</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div><a class="footer-brand" href="index.html">NEXUS</a><p class="footer-desc">The world's most advanced humanoid intelligence. Built to serve humanity at a scale never before possible.</p></div>
+    <div><div class="footer-head">Navigate</div><ul class="footer-links"><li><a href="index.html">Overview</a></li><li><a href="about.html">About</a></li><li><a href="specs.html">Specifications</a></li><li><a href="contact.html">Request Access</a></li></ul></div>
+    <div><div class="footer-head">Capabilities</div><ul class="footer-links"><li><a href="specs.html">Cognitive Systems</a></li><li><a href="specs.html">Physical Capability</a></li><li><a href="specs.html">Communication</a></li><li><a href="specs.html">Autonomy</a></li></ul></div>
+    <div><div class="footer-head">Contact</div><ul class="footer-links"><li><a href="contact.html">Research Enquiries</a></li><li><a href="contact.html">Press & Media</a></li><li><a href="contact.html">Partnership</a></li><li><a href="#">contact@nexus-labs.ai</a></li></ul></div>
+  </div>
+  <div class="footer-btm"><div class="footer-copy">&copy; 2026 NEXUS LABORATORIES. CLASSIFIED RESEARCH DIVISION.</div><div class="footer-copy">ALL RIGHTS RESERVED.</div></div>
+</footer>
+
+<script>
+(function(){
+  /* BOOT SEQUENCE */
+  var lines=[
+    {line:"bl1",val:"bv1",delay:200},
+    {line:"bl2",val:"bv2",delay:600},
+    {line:"bl3",val:"bv3",delay:1000},
+    {line:"bl4",val:"bv4",delay:1400},
+    {line:"bl5",val:"bv5",delay:1800}
+  ];
+  var bar=document.getElementById("bootBar"),pct=document.getElementById("bootPct");
+  lines.forEach(function(l,i){
+    setTimeout(function(){
+      document.getElementById(l.line).classList.add("show");
+      setTimeout(function(){
+        var v=document.getElementById(l.val);
+        v.textContent="DONE";v.classList.add("done");
+        var p=Math.round((i+1)/lines.length*85);
+        bar.style.width=p+"%";pct.textContent=p+"%";
+      },300);
+    },l.delay);
+  });
+  setTimeout(function(){
+    bar.style.width="100%";pct.textContent="100%";
+    document.getElementById("bootOnline").classList.add("show");
+  },2400);
+  setTimeout(function(){
+    document.getElementById("bootScreen").classList.add("hidden");
+  },3400);
+
+  /* CANVAS */
+  var c=document.getElementById("hCanvas"),ctx=c.getContext("2d"),W,H;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();window.addEventListener("resize",resize);
+  var pts=[],t=0;
+  function spawn(){pts.push({x:Math.random()*W*.45,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,life:Math.random()*.5+.5,decay:.002+Math.random()*.003,size:Math.random()*1.2+.3});}
+  function loop(){requestAnimationFrame(loop);t+=.01;ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle="rgba(255,255,255,0.018)";ctx.lineWidth=.4;
+    for(var i=0;i<=18;i++){var x=(i/18)*W*.5;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(var j=0;j<=14;j++){ctx.beginPath();ctx.moveTo(0,(j/14)*H);ctx.lineTo(W*.5,(j/14)*H);ctx.stroke();}
+    if(pts.length<40)spawn();
+    for(var i=pts.length-1;i>=0;i--){var p=pts[i];p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;if(p.life<=0){pts.splice(i,1);continue;}ctx.save();ctx.globalAlpha=p.life*.5;ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();ctx.restore();}
+  }
+  loop();
+
+  /* STATS */
+  var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){document.querySelectorAll(".stat-n").forEach(function(el){var t=parseFloat(el.dataset.t),s=el.dataset.s||"",isF=t%1!==0,c=0,step=t/50;var iv=setInterval(function(){c+=step;if(c>=t){c=t;clearInterval(iv);}el.textContent=(isF?c.toFixed(1):Math.round(c))+s;},20);});so.disconnect();}});},{threshold:.5});
+  var sb=document.querySelector(".stats");if(sb)so.observe(sb);
+
+  /* CURSOR */
+  var cur=document.getElementById("cursor"),ring=document.getElementById("cursorRing");
+  if(!cur)return;
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;cur.style.left=mx+"px";cur.style.top=my+"px";});
+  function animRing(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll("a,button").forEach(function(el){
+    el.addEventListener("mouseenter",function(){cur.style.transform="translate(-50%,-50%) scale(3)";ring.style.transform="translate(-50%,-50%) scale(0.4)";ring.style.opacity="0";});
+    el.addEventListener("mouseleave",function(){cur.style.transform="translate(-50%,-50%) scale(1)";ring.style.transform="translate(-50%,-50%) scale(1)";ring.style.opacity="1";});
+  });
+
+  /* SCROLL REVEAL */
+  var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add("in");});},{threshold:.08});
+  document.querySelectorAll(".rv").forEach(function(el,i){el.style.transitionDelay=(i%4)*.1+"s";ro.observe(el);});
+})();
+</script>
+</body></html>
