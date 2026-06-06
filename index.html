@@ -46,8 +46,7 @@
 .hero-meta-divider{width:1px;background:#1a1a1a;align-self:stretch}
 
 /* VIDEO PANEL */
-.hero-img-anim{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;animation:kenBurns 12s ease-in-out infinite alternate;transform-origin:center}
-@keyframes kenBurns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.08) translate(-2%,-1%)}}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero-right{position:relative;overflow:hidden;z-index:2}
 
 .hero-video-overlay{position:absolute;inset:0;background:linear-gradient(90deg,#000 0%,rgba(0,0,0,0.3) 35%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0.4) 100%)}
@@ -174,7 +173,9 @@
     </div>
   </div>
   <div class="hero-right">
-    <img class="hero-img-anim" src="nexus-side.png" alt="NEXUS">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="nexus-video.mp4" type="video/mp4">
+    </video>
     <div class="hero-video-overlay"></div>
     <div class="hero-scan"><div class="scan-line"></div></div>
     <div class="hero-corner tl"></div>
