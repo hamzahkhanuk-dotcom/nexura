@@ -26,9 +26,9 @@
 .boot-pct{font-size:10px;color:#333;font-family:"Orbitron",sans-serif;letter-spacing:1px;min-width:36px}
 
 /* HERO */
-.hero{height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;background:#000}
+.hero{height:100vh;position:relative;overflow:hidden;background:#000;display:flex;align-items:center}
 #hCanvas{position:absolute;inset:0;z-index:1;pointer-events:none}
-.hero-left{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:0 52px;padding-top:64px}
+.hero-left{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:0 52px;padding-top:64px;max-width:600px}
 .hero-eyebrow{margin-bottom:24px;opacity:0;animation:fadeUp .8s .2s forwards}
 .hero-status-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .hero-status-dot{width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff;animation:blink 2s infinite}
@@ -45,8 +45,8 @@
 .hero-meta-label{font-size:9px;letter-spacing:2px;color:#444;font-family:"Space Grotesk",sans-serif;text-transform:uppercase}
 .hero-meta-divider{width:1px;background:#1a1a1a;align-self:stretch}
 
-/* VIDEO PANEL */
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* VIDEO PANEL - FULL WIDTH BACKGROUND */
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .hero-right{position:relative;overflow:hidden;z-index:2}
 
 .hero-video-overlay{position:absolute;inset:0;background:linear-gradient(90deg,#000 0%,rgba(0,0,0,0.3) 35%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0.4) 100%)}
@@ -100,9 +100,8 @@
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr;height:auto;min-height:100vh}
+  .hero{height:100vh}
   .hero-left{padding:90px 20px 0}
-  .hero-right{height:55vh}
   .stats{grid-template-columns:1fr 1fr}
   .about-strip{grid-template-columns:1fr;padding:60px 20px;gap:40px}
   .about-img{height:300px}
@@ -172,17 +171,17 @@
       <div class="hero-meta-item"><div class="hero-meta-val">200h</div><div class="hero-meta-label">Runtime</div></div>
     </div>
   </div>
-  <div class="hero-right">
-    <video class="hero-video" autoplay muted loop playsinline>
-      <source src="nexus-video.mp4" type="video/mp4">
-    </video>
-    <div class="hero-video-overlay"></div>
-    <div class="hero-scan"><div class="scan-line"></div></div>
-    <div class="hero-corner tl"></div>
-    <div class="hero-corner tr"></div>
-    <div class="hero-corner bl"></div>
-    <div class="hero-corner br"></div>
-  </div>
+  <!-- FULL WIDTH VIDEO BACKGROUND -->
+  <video class="hero-video" autoplay muted loop playsinline id="heroVideo">
+    <source src="nexus-video.mp4" type="video/mp4">
+  </video>
+  <img id="heroFallback" src="nexus-chrome2.png" alt="NEXUS" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">
+  <div class="hero-video-overlay" style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.5) 40%,rgba(0,0,0,0.1) 70%,rgba(0,0,0,0.3) 100%);z-index:1"></div>
+  <div class="hero-scan" style="position:absolute;inset:0;z-index:2;pointer-events:none"><div class="scan-line"></div></div>
+  <div class="hero-corner tl" style="z-index:4"></div>
+  <div class="hero-corner tr" style="z-index:4"></div>
+  <div class="hero-corner bl" style="z-index:4"></div>
+  <div class="hero-corner br" style="z-index:4"></div>
 </section>
 
 <!-- STATS -->
@@ -324,6 +323,20 @@
   /* SCROLL REVEAL */
   var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add("in");});},{threshold:.08});
   document.querySelectorAll(".rv").forEach(function(el,i){el.style.transitionDelay=(i%4)*.1+"s";ro.observe(el);});
+  // VIDEO FALLBACK
+  var vid = document.getElementById("heroVideo");
+  if(vid){
+    vid.addEventListener("error", function(){
+      vid.style.display="none";
+      document.getElementById("heroFallback").style.display="block";
+    });
+    setTimeout(function(){
+      if(vid.readyState === 0){
+        vid.style.display="none";
+        document.getElementById("heroFallback").style.display="block";
+      }
+    }, 3000);
+  }
 })();
 </script>
 </body></html>
